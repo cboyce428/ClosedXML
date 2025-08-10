@@ -589,9 +589,8 @@ namespace ClosedXML.Excel
         internal XLRangeRows RowsUsed(XLCellsUsedOptions options, Func<IXLRangeRow, Boolean> predicate = null)
         {
             XLRangeRows rows = new XLRangeRows();
-            Int32 rowCount = RowCount(options);
 
-            for (Int32 ro = 1; ro <= rowCount; ro++)
+            for (Int32 ro = RangeAddress.FirstAddress.RowNumber; ro <= RangeAddress.LastAddress.RowNumber; ro++)
             {
                 var row = Row(ro);
 
@@ -619,9 +618,8 @@ namespace ClosedXML.Excel
         internal virtual XLRangeColumns ColumnsUsed(XLCellsUsedOptions options, Func<IXLRangeColumn, Boolean> predicate = null)
         {
             XLRangeColumns columns = new XLRangeColumns();
-            Int32 columnCount = ColumnCount(options);
 
-            for (Int32 co = 1; co <= columnCount; co++)
+            for (Int32 co = RangeAddress.FirstAddress.ColumnNumber; co <= RangeAddress.LastAddress.ColumnNumber; co++)
             {
                 var column = Column(co);
 

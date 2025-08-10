@@ -1,4 +1,5 @@
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -247,6 +248,25 @@ namespace ClosedXML.Tests.Excel
 
             IXLRangeRow fromRange = ws.Range("A1:E1").FirstRow().RowUsed();
             Assert.AreEqual("B1:C1", fromRange.RangeAddress.ToStringRelative());
+
+            // https://github.com/ClosedXML/ClosedXML/issues/2689
+            ws = wb.Worksheets.Add("Sheet2");
+            ws.Cell("A2").Value = "two";
+            ws.Cell("A3").Value = "three";
+            ws.Cell("A4").Value = "four";
+            Assert.AreEqual(3, ws.Range("A1:A5").RowsUsed().Count());
+            Assert.AreEqual(3, ws.RowsUsed().Count());
+
+            ws.Cell("A1").Value = "one";
+            Assert.AreEqual(4, ws.Range("A1:A5").RowsUsed().Count());
+
+            ws.Cell("A5").Value = "five";
+            Assert.AreEqual(5, ws.Range("A1:A5").RowsUsed().Count());
+
+            ws.Cell("A6").Value = "six";
+            ws.Cell("A7").Value = "seven";
+            Assert.AreEqual(5, ws.Range("A1:A5").RowsUsed().Count());
+            Assert.AreEqual(7, ws.RowsUsed().Count());
         }
 
         [Test]

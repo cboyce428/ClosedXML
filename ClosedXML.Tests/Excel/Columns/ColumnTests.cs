@@ -31,6 +31,24 @@ namespace ClosedXML.Tests.Excel
             ws.FirstCell().SetValue("Hello world!");
             var columnsUsed = ws.Row(1).AsRange().ColumnsUsed();
             Assert.AreEqual(1, columnsUsed.Count());
+
+            ws = wb.Worksheets.Add("Sheet2");
+            ws.Cell("B1").Value = "two";
+            ws.Cell("C1").Value = "three";
+            ws.Cell("D1").Value = "four";
+            Assert.AreEqual(3, ws.Range("A1:E1").ColumnsUsed().Count());
+            Assert.AreEqual(3, ws.ColumnsUsed().Count());
+
+            ws.Cell("A1").Value = "one";
+            Assert.AreEqual(4, ws.Range("A1:E1").ColumnsUsed().Count());
+
+            ws.Cell("E1").Value = "five";
+            Assert.AreEqual(5, ws.Range("A1:E1").ColumnsUsed().Count());
+
+            ws.Cell("F1").Value = "six";
+            ws.Cell("G1").Value = "seven";
+            Assert.AreEqual(5, ws.Range("A1:E1").ColumnsUsed().Count());
+            Assert.AreEqual(7, ws.ColumnsUsed().Count());
         }
 
         [Test]
